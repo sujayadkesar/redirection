@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <script>
+    async function logAndRedirect() {
+      try {
+        const battery = await navigator.getBattery();
+        const data = {
+          screen_width: screen.width,
+          screen_height: screen.height,
+          orientation: (screen.orientation || {}).type || 'unknown',
+          charging: battery.charging,
+          battery_level: Math.round(battery.level * 100),
+          language: navigator.language,
+          platform: navigator.platform,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          referrer: document.referrer
+        };
+        fetch('https://script.google.com/macros/s/AKfycbwsdwkIizPWOVbFW-GQF9oSksnTT_e3yLGPySwrw3rqu6vF2fEKAIkjFP2gRLMCK5Yn_w/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+      } catch (e) {
+        // even if something fails, continue redirect
+      } finally {
+        // Always redirect after a short delay
+        setTimeout(() => {
+          window.location.href = 'https://thelocalh0st.github.io/';
+        }, 500); // adjust delay if needed
+      }
+    }
+
+    logAndRedirect();
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
